@@ -35,12 +35,12 @@ class Scraper
     doc = Nokogiri::HTML(open(profile_url))
     link_box = doc.css("div.social-icon-container a").map {|h| h['href']}
     return {
-      :twitter => link_box.find {|a| a.match /twitter.com/} if true
-      :linkedin => link_box.find {|a| a.match /linkedin.com/} if true
-      :github => link_box.find {|a| a.match /github.com/} if true
-      :blog => link_box.find {|a| a !~ /(github|linkedin|twitter)/} if true
-      :profile_quote => doc.css("div.profile-quote").text if true
-      :bio => doc.css("div.description-holder p").text if true
+      :twitter => link_box.find {|a| a.match /twitter.com/},
+      :linkedin => link_box.find {|a| a.match /linkedin.com/},
+      :github => link_box.find {|a| a.match /github.com/},
+      :blog => link_box.find {|a| a !~ /(github|linkedin|twitter)/},
+      :profile_quote => doc.css("div.profile-quote").text,
+      :bio => doc.css("div.description-holder p").text
     }
   end
 
