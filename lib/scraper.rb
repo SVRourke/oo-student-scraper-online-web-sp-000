@@ -18,18 +18,30 @@ class Scraper
     students
   end
 
+  # def self.scrape_profile_page(profile_url)
+  #   doc = Nokogiri::HTML(open(profile_url))
+  #   link_box = doc.css("div.social-icon-container a").map {|h| h['href']}
+  #   buff = Hash.new
+  #     buff[:twitter] = link_box.find {|a| a.match /twitter.com/} if true
+  #     buff[:linkedin] = link_box.find {|a| a.match /linkedin.com/} if true
+  #     buff[:github] = link_box.find {|a| a.match /github.com/} if true
+  #     buff[:blog] = link_box.find {|a| a !~ /(github|linkedin|twitter)/} if true
+  #     buff[:profile_quote] = doc.css("div.profile-quote").text if true
+  #     buff[:bio] = doc.css("div.description-holder p").text if true
+  #   # binding.pry
+  #   return buff.compact
+  # end
   def self.scrape_profile_page(profile_url)
     doc = Nokogiri::HTML(open(profile_url))
     link_box = doc.css("div.social-icon-container a").map {|h| h['href']}
-    buff = Hash.new
-      buff[:twitter] = link_box.find {|a| a.match /twitter.com/} if true
-      buff[:linkedin] = link_box.find {|a| a.match /linkedin.com/} if true
-      buff[:github] = link_box.find {|a| a.match /github.com/} if true
-      buff[:blog] = link_box.find {|a| a !~ /(github|linkedin|twitter)/} if true
-      buff[:profile_quote] = doc.css("div.profile-quote").text if true
-      buff[:bio] = doc.css("div.description-holder p").text if true
-    # binding.pry
-    return buff.compact
+    return {
+      :twitter => link_box.find {|a| a.match /twitter.com/} if true
+      :linkedin => link_box.find {|a| a.match /linkedin.com/} if true
+      :github => link_box.find {|a| a.match /github.com/} if true
+      :blog => link_box.find {|a| a !~ /(github|linkedin|twitter)/} if true
+      :profile_quote => doc.css("div.profile-quote").text if true
+      :bio => doc.css("div.description-holder p").text if true
+    }
   end
 
 end
